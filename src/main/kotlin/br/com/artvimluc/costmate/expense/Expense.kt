@@ -1,11 +1,10 @@
 package br.com.artvimluc.costmate.expense
 
-import jakarta.persistence.Column
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import java.math.BigDecimal
 
+@Entity
+@Table(name = "EXPENSE")
 class Expense (
     @Id
     @Column(name = "ID")
