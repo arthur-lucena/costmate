@@ -44,8 +44,8 @@ flyway {
 	url = "jdbc:postgresql://localhost:5432/costmate"
 	user = "user"
 	password = "pwuser"
+	cleanDisabled = false
 }
-
 abstract class GreetingTask : DefaultTask() {
 
 	@TaskAction
