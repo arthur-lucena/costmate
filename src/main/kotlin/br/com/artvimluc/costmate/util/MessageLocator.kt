@@ -1,4 +1,4 @@
-package br.com.artvimluc.costmate.config
+package br.com.artvimluc.costmate.util
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource

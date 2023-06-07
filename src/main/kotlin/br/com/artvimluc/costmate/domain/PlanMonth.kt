@@ -1,4 +1,4 @@
-package br.com.artvimluc.costmate.planmonth
+package br.com.artvimluc.costmate.domain
 
 import jakarta.persistence.*
 import java.math.BigDecimal

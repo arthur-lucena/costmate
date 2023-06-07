@@ -1,8 +1,10 @@
-package br.com.artvimluc.costmate.expense
+package br.com.artvimluc.costmate.service
 
-import br.com.artvimluc.costmate.creditcard.CreditCard
-import br.com.artvimluc.costmate.creditcard.CreditCardRepository
-import br.com.artvimluc.costmate.planmonth.PlanMonthDTO
+import br.com.artvimluc.costmate.domain.CreditCard
+import br.com.artvimluc.costmate.repository.CreditCardRepository
+import br.com.artvimluc.costmate.domain.Expense
+import br.com.artvimluc.costmate.dto.PlanMonthDTO
+import br.com.artvimluc.costmate.repository.ExpenseRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

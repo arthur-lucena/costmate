@@ -1,27 +1,25 @@
-package br.com.artvimluc.costmate.creditcard
+package br.com.artvimluc.costmate.domain
 
 import jakarta.persistence.*
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "CREDIT_CARD")
-class CreditCard (
+@Table(name = "INCOME")
+class Income (
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(name = "NAME")
-    var name: String? = null,
+    @Column(name = "PLAN_MONTH_ID")
+    var planMonthId: Long? = null,
 
     @Column(name = "DESCRIPTION")
     var description: String? = null,
 
-    @Column(name = "DAY_DUE_DATE")
-    var dayDueDate: Int? = null,
-
-    @Column(name = "DAYS_TO_CLOSE")
-    var daysToClose: Int? = null,
+    @Column(name = "INCOME_VALUE")
+    var value: BigDecimal? = null,
 
     @Column(name = "DATE_CREATE")
     var dateCreate: LocalDateTime? = null,

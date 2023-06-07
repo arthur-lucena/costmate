@@ -1,5 +1,6 @@
-package br.com.artvimluc.costmate.income
+package br.com.artvimluc.costmate.repository
 
+import br.com.artvimluc.costmate.domain.Income
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

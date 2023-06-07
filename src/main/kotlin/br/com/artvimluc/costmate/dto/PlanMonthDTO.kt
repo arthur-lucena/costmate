@@ -1,7 +1,7 @@
-package br.com.artvimluc.costmate.planmonth
+package br.com.artvimluc.costmate.dto
 
-import br.com.artvimluc.costmate.expense.Expense
-import br.com.artvimluc.costmate.income.Income
+import br.com.artvimluc.costmate.domain.Expense
+import br.com.artvimluc.costmate.domain.Income
 import java.math.BigDecimal
 
 class PlanMonthDTO (
