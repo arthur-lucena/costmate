@@ -7,6 +7,7 @@ import br.com.artvimluc.costmate.domain.PlanMonth
 import br.com.artvimluc.costmate.repository.ExpenseRepository
 import br.com.artvimluc.costmate.domain.Income
 import br.com.artvimluc.costmate.dto.PlanMonthDTO
+import br.com.artvimluc.costmate.exception.ExistsException
 import br.com.artvimluc.costmate.repository.IncomeRepository
 import br.com.artvimluc.costmate.repository.PlanMonthRepository
 import org.modelmapper.ModelMapper
@@ -24,14 +25,18 @@ class PlanMonthService
         private val messageLocator: MessageLocator,
     ) {
 
-    fun create(planMonth: PlanMonth): PlanMonthDTO {
-        planMonthRepository.save(planMonth)
+    fun create(planMonth: PlanMonth): PlanMonth {
+        if (exists(planMonth)) throw ExistsException(messageLocator.getMessage("already.exists"))
 
-        return find(2023, 12)
+        return planMonthRepository.save(planMonth)
     }
 
-    fun find(year: Int?, month: Int?) : PlanMonthDTO {
-        val planMonth: PlanMonth? = planMonthRepository.findByReferenceYearAndReferenceMonth(year, month)
+    fun exists(planMonth: PlanMonth): Boolean {
+        return planMonthRepository.existsByReferenceYearAndReferenceMonth(planMonth.referenceYear, planMonth.referenceMonth)
+    }
+
+    fun find(referenceYear: Int?, referenceMonth: Int?) : PlanMonthDTO {
+        val planMonth: PlanMonth? = planMonthRepository.findByReferenceYearAndReferenceMonth(referenceYear, referenceMonth)
 
         return planMonthDTO(planMonth?: throw NotFoundException(messageLocator.getMessage("not.found")))
     }

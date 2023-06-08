@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository
 interface PlanMonthRepository : JpaRepository<PlanMonth, Long> {
     fun findByReferenceYearAndReferenceMonth(referenceYear: Int?, referenceMonth: Int?): PlanMonth?
 
+    fun existsByReferenceYearAndReferenceMonth(referenceYear: Int?, referenceMonth: Int?): Boolean
 }

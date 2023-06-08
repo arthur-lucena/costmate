@@ -4,6 +4,9 @@ import br.com.artvimluc.costmate.domain.PlanMonth
 import br.com.artvimluc.costmate.dto.PlanMonthDTO
 import br.com.artvimluc.costmate.service.PlanMonthService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatusCode
+import org.springframework.http.RequestEntity.BodyBuilder
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -16,12 +19,12 @@ constructor (
     private val planMonthService: PlanMonthService,
 ) {
     @PostMapping
-    fun create(@RequestBody planMonth: PlanMonth): ResponseEntity<PlanMonthDTO> {
-        return ResponseEntity.ok(planMonthService.create(planMonth))
+    fun create(@RequestBody planMonth: PlanMonth): ResponseEntity<PlanMonth> {
+        return ResponseEntity(planMonthService.create(planMonth), HttpStatus.CREATED)
     }
 
-    @GetMapping("/{month}/{year}")
-    fun get(@PathVariable month: Int, @PathVariable year: Int): ResponseEntity<PlanMonthDTO> {
-        return ResponseEntity.ok(planMonthService.find(year, month))
+    @GetMapping("/{referenceMonth}/{referenceYear}")
+    fun get(@PathVariable referenceYear: Int, @PathVariable referenceMonth: Int): ResponseEntity<PlanMonthDTO> {
+        return ResponseEntity.ok(planMonthService.find(referenceYear, referenceMonth))
     }
 }

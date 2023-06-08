@@ -14,5 +14,10 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.message)
     }
 
+    @ExceptionHandler(ExistsException::class)
+    fun handleExistsException(ex: ExistsException): ResponseEntity<String> {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.message)
+    }
+
     // Adicione outros handlers de exceção conforme necessário
 }
