@@ -7,6 +7,7 @@ import br.com.artvimluc.costmate.dto.PlanMonthDTO
 import br.com.artvimluc.costmate.repository.ExpenseRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 
 @Service
 class ExpenseService
@@ -15,9 +16,10 @@ class ExpenseService
     constructor (
         private val expenseRepository: ExpenseRepository,
         private val creditCardRepository: CreditCardRepository,
+        private val planMonthService: PlanMonthService,
     ) {
 
-    fun create(): Expense {
+    fun create(current: Boolean): Expense {
         var cardAme : CreditCard = CreditCard(
             name = "Cartão Ame",
             description = "Meu cartão secundário",
@@ -27,30 +29,25 @@ class ExpenseService
 
         cardAme = creditCardRepository.save(cardAme)
 
-//        val expense: Expense = Expense(
-//            planMonthId = planMonth.id,
-//            creditCardId = cardAme.id,
-//            description = "cartao nu",
-//            value = BigDecimal.valueOf(3580.89),
-//            installment = 1,
-//            totalInstallments = 1,
-//            refund = false,
-//            receiptFileUploaded = false)
-//
-//        expenseRepository.save(expense)
-//
+        val planMonth = planMonthService.findCurrent();
+
+        val expense: Expense = Expense(
+            planMonthId = planMonth.id,
+            creditCardId = cardAme.id,
+            description = "cartao nu",
+            value = BigDecimal.valueOf(3580.89),
+            installment = 1,
+            totalInstallments = 1,
+            refund = false,
+            receiptFileUploaded = false)
+
+        expenseRepository.save(expense)
+
 //        return find(2023, 12)
         return Expense()
     }
 
-    fun find(year: Int?, month: Int?) : PlanMonthDTO {
-//        val planMonth: PlanMonth = planMonthRepository.findByReferenceYearAndReferenceMonth(year, month)
-//        val mapper = ModelMapper()
-//        val dto: PlanMonthDTO = mapper.map(planMonth, PlanMonthDTO::class.java)
-//        val expenses: List<Expense?>? = expenseRepository.findByPlanMonthId(planMonth.id)
-//        val incomes: List<Income?>? = incomeRepository.findByPlanMonthId(planMonth.id)
-//        dto.listExpense = expenses
-//        dto.listIncome = incomes
-        return PlanMonthDTO()
+    fun findAll(year: Int?, month: Int?) : List<Expense> {
+
     }
 }

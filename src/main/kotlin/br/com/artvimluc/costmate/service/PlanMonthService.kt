@@ -13,6 +13,7 @@ import br.com.artvimluc.costmate.repository.PlanMonthRepository
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class PlanMonthService
@@ -35,10 +36,18 @@ class PlanMonthService
         return planMonthRepository.existsByReferenceYearAndReferenceMonth(planMonth.referenceYear, planMonth.referenceMonth)
     }
 
-    fun find(referenceYear: Int?, referenceMonth: Int?) : PlanMonthDTO {
+    fun findCurrent() : PlanMonth {
+        return find(LocalDate.now().year, LocalDate.now().month.value)
+    }
+
+    fun find(referenceYear: Int?, referenceMonth: Int?) : PlanMonth {
         val planMonth: PlanMonth? = planMonthRepository.findByReferenceYearAndReferenceMonth(referenceYear, referenceMonth)
 
-        return planMonthDTO(planMonth?: throw NotFoundException(messageLocator.getMessage("not.found")))
+        return planMonth?: throw NotFoundException(messageLocator.getMessage("not.found"))
+    }
+
+    fun findDTO(referenceYear: Int?, referenceMonth: Int?) : PlanMonthDTO {
+        return planMonthDTO(find(referenceYear, referenceMonth))
     }
 
     private fun planMonthDTO(planMonth: PlanMonth): PlanMonthDTO {
