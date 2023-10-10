@@ -9,4 +9,6 @@ interface PlanMonthRepository : JpaRepository<PlanMonth, Long> {
     fun findByReferenceYearAndReferenceMonth(referenceYear: Int?, referenceMonth: Int?): PlanMonth?
 
     fun existsByReferenceYearAndReferenceMonth(referenceYear: Int?, referenceMonth: Int?): Boolean
+
+    fun deleteByReferenceYearAndReferenceMonth(referenceYear: Int?, referenceMonth: Int?): Boolean
 }

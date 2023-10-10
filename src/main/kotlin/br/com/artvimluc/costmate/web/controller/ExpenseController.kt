@@ -1,7 +1,6 @@
-package br.com.artvimluc.costmate.controller;
+package br.com.artvimluc.costmate.web.controller;
 
 import br.com.artvimluc.costmate.domain.Expense
-import br.com.artvimluc.costmate.dto.PlanMonthDTO
 import br.com.artvimluc.costmate.service.ExpenseService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity

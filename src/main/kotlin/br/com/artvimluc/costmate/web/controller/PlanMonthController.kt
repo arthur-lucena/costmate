@@ -1,4 +1,4 @@
-package br.com.artvimluc.costmate.controller;
+package br.com.artvimluc.costmate.web.controller;
 
 import br.com.artvimluc.costmate.domain.PlanMonth
 import br.com.artvimluc.costmate.dto.PlanMonthDTO
