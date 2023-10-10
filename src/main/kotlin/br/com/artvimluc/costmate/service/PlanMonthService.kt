@@ -41,30 +41,30 @@ class PlanMonthService
         return planMonthRepository.save(planMonth)
     }
 
-    fun update(planMonth: PlanMonth): PlanMonth {
-        if (!exists(planMonth)) {
-            throw NotFoundException(String.format(messageLocator.getMessage(NOT_FOUND), planMonth.referenceYear, planMonth.referenceMonth))
-        }
+    fun update(referenceYear: Int, referenceMonth: Int, planMonth: PlanMonth): PlanMonth {
+        val planMonthOnBase = find(referenceYear, referenceMonth)
+
+        planMonth.id = planMonthOnBase.id
 
         return planMonthRepository.save(planMonth)
     }
 
-    fun delete(referenceYear: Int?, referenceMonth: Int?) : Boolean {
-        return planMonthRepository.deleteByReferenceYearAndReferenceMonth(referenceYear, referenceMonth)
+    fun delete(referenceYear: Int?, referenceMonth: Int?) {
+        planMonthRepository.delete(find(referenceYear, referenceMonth))
     }
 
     fun exists(planMonth: PlanMonth): Boolean {
         return planMonthRepository.existsByReferenceYearAndReferenceMonth(planMonth.referenceYear, planMonth.referenceMonth)
     }
 
-    fun findCurrent() : PlanMonth {
-        return find(LocalDate.now().year, LocalDate.now().month.value)
-    }
-
     fun find(referenceYear: Int?, referenceMonth: Int?) : PlanMonth {
         val planMonth: PlanMonth? = planMonthRepository.findByReferenceYearAndReferenceMonth(referenceYear, referenceMonth)
 
         return planMonth?: throw NotFoundException(String.format(messageLocator.getMessage(NOT_FOUND), referenceYear, referenceMonth))
+    }
+
+    fun findCurrent() : PlanMonth {
+        return find(LocalDate.now().year, LocalDate.now().month.value)
     }
 
     fun findDTO(referenceYear: Int?, referenceMonth: Int?) : PlanMonthDTO {

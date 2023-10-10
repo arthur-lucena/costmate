@@ -2,7 +2,6 @@ package br.com.artvimluc.costmate.web.advice
 
 import br.com.artvimluc.costmate.exception.AllReadyExistsException
 import br.com.artvimluc.costmate.exception.NotFoundException
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler

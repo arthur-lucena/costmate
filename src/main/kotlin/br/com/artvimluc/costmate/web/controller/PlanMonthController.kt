@@ -16,13 +16,25 @@ class PlanMonthController
 constructor (
     private val planMonthService: PlanMonthService,
 ) {
+
+    @GetMapping("/{referenceYear}/{referenceMonth}")
+    fun get(@PathVariable referenceYear: Int, @PathVariable referenceMonth: Int): ResponseEntity<PlanMonthDTO> {
+        return ResponseEntity.ok(planMonthService.findDTO(referenceYear, referenceMonth))
+    }
     @PostMapping
     fun create(@RequestBody planMonth: PlanMonth): ResponseEntity<PlanMonth> {
         return ResponseEntity(planMonthService.create(planMonth), HttpStatus.CREATED)
     }
 
-    @GetMapping("/{referenceMonth}/{referenceYear}")
-    fun get(@PathVariable referenceYear: Int, @PathVariable referenceMonth: Int): ResponseEntity<PlanMonthDTO> {
-        return ResponseEntity.ok(planMonthService.findDTO(referenceYear, referenceMonth))
+    @PutMapping("/{referenceYear}/{referenceMonth}")
+    fun update(@PathVariable referenceYear: Int, @PathVariable referenceMonth: Int, @RequestBody planMonth: PlanMonth): ResponseEntity<PlanMonth> {
+        return ResponseEntity(planMonthService.update(referenceYear, referenceMonth, planMonth), HttpStatus.OK)
     }
+
+    @DeleteMapping("/{referenceYear}/{referenceMonth}")
+    fun delete(@PathVariable referenceYear: Int, @PathVariable referenceMonth: Int): ResponseEntity<PlanMonth> {
+        planMonthService.delete(referenceYear, referenceMonth)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
 }
