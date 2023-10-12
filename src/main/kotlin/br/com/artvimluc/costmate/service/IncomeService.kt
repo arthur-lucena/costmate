@@ -56,25 +56,4 @@ class IncomeService
                 id
             )) }
     }
-
-//    fun exists(planMonth: PlanMonth): Boolean {
-//        return planMonthRepository.existsByReferenceYearAndReferenceMonth(planMonth.referenceYear, planMonth.referenceMonth)
-//    }
-//    fun findCurrent() : PlanMonth {
-//        return find(LocalDate.now().year, LocalDate.now().month.value)
-//    }
-//
-//    fun findDTO(referenceYear: Int?, referenceMonth: Int?) : PlanMonthDTO {
-//        return planMonthDTO(find(referenceYear, referenceMonth))
-//    }
-//
-//    private fun planMonthDTO(planMonth: PlanMonth): PlanMonthDTO {
-//        val mapper = ModelMapper()
-//        val dto: PlanMonthDTO = mapper.map(planMonth, PlanMonthDTO::class.java)
-//        val expenses: List<Expense?>? = expenseRepository.findByPlanMonthId(planMonth.id)
-//        val incomes: List<Income?>? = incomeRepository.findByPlanMonthId(planMonth.id)
-//        dto.listExpense = expenses
-//        dto.listIncome = incomes
-//        return dto
-//    }
 }
