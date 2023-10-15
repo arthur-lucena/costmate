@@ -1,5 +1,6 @@
 package br.com.artvimluc.costmate.domain
 
+import br.com.artvimluc.costmate.enum.ExpenseStatus
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -38,6 +39,10 @@ class Expense (
 
     @Column(name = "RECEIPT_FILE_UPLOADED")
     var receiptFileUploaded: Boolean? = null,
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "STATUS", length = 255)
+    var status: ExpenseStatus? = null,
 
     @Column(name = "DATE_CREATE")
     var dateCreate: LocalDateTime? = null,
