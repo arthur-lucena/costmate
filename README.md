@@ -25,7 +25,7 @@ ps.: incluir opcao para importar dados de cartao, atualmente o cartao xp exporta
 
 [ ] criar mecanismo para sumarizar valores do plan month (fazer na consulta ou consolidar via codigo?)
 
-[ ] adicionar status do pagamento no expense (pago ou nao pago) e dia vencimento
+[x] adicionar status do pagamento no expense (pago ou nao pago) e dia vencimento
 
 [ ] criar estrutura para planejamento mensal
 

@@ -44,6 +44,9 @@ class Expense (
     @Column(name = "STATUS", length = 255)
     var status: ExpenseStatus? = null,
 
+    @Column(name = "DUE_DAY")
+    var dueDay: Int? = null,
+
     @Column(name = "DATE_CREATE")
     var dateCreate: LocalDateTime? = null,
 
