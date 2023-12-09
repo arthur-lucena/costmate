@@ -15,6 +15,11 @@ class ExpenseController
 constructor (
     private val expenseService: ExpenseService,
 ) {
+
+    @GetMapping
+    fun get(): ResponseEntity<List<Expense> > {
+        return ResponseEntity.ok(expenseService.find())
+    }
     @GetMapping("/{id}")
     fun get(@PathVariable id: Long): ResponseEntity<Expense> {
         return ResponseEntity.ok(expenseService.find(id))

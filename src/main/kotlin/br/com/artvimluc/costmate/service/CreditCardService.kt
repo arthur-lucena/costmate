@@ -47,4 +47,8 @@ class CreditCardService
         )
         }
     }
+
+    fun find() : List<CreditCard> {
+        return creditCardRepository.findAll()
+    }
 }

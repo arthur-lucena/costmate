@@ -15,6 +15,11 @@ class CreditCardController
 constructor (
     private val creditCardService: CreditCardService,
 ) {
+
+    @GetMapping
+    fun get(): ResponseEntity<List<CreditCard>> {
+        return ResponseEntity.ok(creditCardService.find())
+    }
     @GetMapping("/{id}")
     fun get(@PathVariable id: Long): ResponseEntity<CreditCard> {
         return ResponseEntity.ok(creditCardService.find(id))

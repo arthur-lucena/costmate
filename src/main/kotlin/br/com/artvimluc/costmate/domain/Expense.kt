@@ -28,6 +28,12 @@ class Expense (
     @Column(name = "REFUND")
     var refund: Boolean? = null,
 
+    @Column(name = "PERC_REFUND")
+    var percentageRefund: Int? = null,
+
+    @Column(name = "FIXED")
+    var fixed: Boolean? = null,
+
     @Column(name = "INSTALLMENT")
     var installment: Int? = null,
 

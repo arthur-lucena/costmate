@@ -6,6 +6,7 @@ import br.com.artvimluc.costmate.repository.ExpenseRepository
 import br.com.artvimluc.costmate.util.MessageLocator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.io.InputStream
 
 private const val NOT_FOUND = "expense.not.found"
 
@@ -44,5 +45,21 @@ class ExpenseService
                 messageLocator.getMessage(NOT_FOUND),
                 id
             )) }
+    }
+
+    fun find() : List<Expense> {
+        return expenseRepository.findAll();
+    }
+
+    fun readCsv(inputStream: InputStream): List<Expense> {
+        val reader = inputStream.bufferedReader()
+        val header = reader.readLine()
+
+        return reader.lineSequence()
+            .filter { it.isNotBlank() }
+            .map {
+                val (description, value, descCreditCard, fixed, refund, percentage, installment, totalInstallment, month, year) = it.split(',', ignoreCase = false, limit = 8)
+
+            }.toList()
     }
 }
