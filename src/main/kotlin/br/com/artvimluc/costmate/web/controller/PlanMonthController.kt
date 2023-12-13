@@ -21,9 +21,15 @@ constructor (
     fun get(@PathVariable referenceYear: Int, @PathVariable referenceMonth: Int): ResponseEntity<PlanMonthDTO> {
         return ResponseEntity.ok(planMonthService.findDTO(referenceYear, referenceMonth))
     }
+
     @PostMapping
     fun create(@RequestBody planMonth: PlanMonth): ResponseEntity<PlanMonth> {
         return ResponseEntity(planMonthService.create(planMonth), HttpStatus.CREATED)
+    }
+
+    @PostMapping("/create-next")
+    fun createNextPlanMonth(): ResponseEntity<PlanMonth> {
+        return ResponseEntity(planMonthService.createNextPlanMonth(), HttpStatus.CREATED)
     }
 
     @PutMapping("/{referenceYear}/{referenceMonth}")

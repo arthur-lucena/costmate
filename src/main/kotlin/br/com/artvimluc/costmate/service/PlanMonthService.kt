@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.time.LocalDate
 
 private const val ALREADY_EXISTS = "plan.month.already.exists"
@@ -39,6 +40,64 @@ class PlanMonthService
         }
 
         return planMonthRepository.save(planMonth)
+    }
+
+    fun createNextPlanMonth(): PlanMonth {
+        val lastPlanMonth = planMonthRepository.findLastPlanMonth()
+
+        val (month, year) = getNextReferenceMonthYear(lastPlanMonth)
+
+        var nextPlanMonth = PlanMonth()
+        nextPlanMonth.referenceMonth = month
+        nextPlanMonth.referenceYear = year
+
+        nextPlanMonth = create(nextPlanMonth)
+
+        val listExpense = expenseRepository.findByPlanMonthId(lastPlanMonth.id)
+
+        // https://stackoverflow.com/questions/34642254/what-java-8-stream-collect-equivalents-are-available-in-the-standard-kotlin-libr
+        if (listExpense != null) {
+            val newExpense = listExpense
+                .filter { it != null && (it.fixed!! ||
+                        (it.installment != null && it.totalInstallments != null
+                                && it.installment!! <= it.totalInstallments!!)) }
+                .map {
+                    val newExpense = Expense()
+
+                    if (it != null) {
+                        newExpense.planMonthId = nextPlanMonth.id
+                        newExpense.creditCardId = it.creditCardId
+                        newExpense.description = it.description
+                        newExpense.value = it.value
+                        newExpense.totalInstallments = it.totalInstallments
+                        newExpense.receiptFileUploaded = it.receiptFileUploaded
+                        newExpense.receiptFile = it.receiptFile
+                        newExpense.refund = it.refund
+                        newExpense.percentageRefund = it.percentageRefund
+                        newExpense.fixed = it.fixed
+                        newExpense.status = it.status
+                        newExpense.dueDay = it.dueDay
+
+                        if (it.installment != null)
+                            newExpense.installment = it.installment!! + 1
+
+                    }
+
+                    newExpense
+                }
+
+            newExpense.forEach { expenseRepository.save(it) }
+        }
+
+        return nextPlanMonth
+    }
+
+    fun getNextReferenceMonthYear(lastPlanMonth: PlanMonth): IntArray {
+        if (lastPlanMonth.referenceMonth == 12) {
+            return intArrayOf(1, (lastPlanMonth.referenceYear!! + 1))
+        }
+
+        return intArrayOf((lastPlanMonth.referenceMonth!! + 1), lastPlanMonth.referenceYear!!)
     }
 
     fun update(referenceYear: Int, referenceMonth: Int, planMonth: PlanMonth): PlanMonth {
@@ -74,10 +133,11 @@ class PlanMonthService
     private fun planMonthDTO(planMonth: PlanMonth): PlanMonthDTO {
         val mapper = ModelMapper()
         val dto: PlanMonthDTO = mapper.map(planMonth, PlanMonthDTO::class.java)
-        val expenses: List<Expense?>? = expenseRepository.findByPlanMonthId(planMonth.id)
-        val incomes: List<Income?>? = incomeRepository.findByPlanMonthId(planMonth.id)
-        dto.listExpense = expenses
-        dto.listIncome = incomes
+
+        dto.totalExpenses = expenseRepository.sumValueByPlanMonthId(planMonth.id).orElse(BigDecimal.ZERO)
+        dto.listExpense = expenseRepository.findByPlanMonthId(planMonth.id)
+        dto.listIncome = incomeRepository.findByPlanMonthId(planMonth.id)
+
         return dto
     }
 }

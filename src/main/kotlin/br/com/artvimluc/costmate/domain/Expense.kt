@@ -58,4 +58,13 @@ class Expense (
 
     @Column(name = "DATE_UPDATE")
     var dateUpdate: LocalDateTime? = null
-)
+) {
+    override fun toString(): String {
+        return "Expense(id=$id, creditCardId=$creditCardId, planMonthId=$planMonthId, description=$description, " +
+                "value=$value, refund=$refund, percentageRefund=$percentageRefund, fixed=$fixed, " +
+                "installment=$installment, totalInstallments=$totalInstallments, receiptFile=$receiptFile, " +
+                "receiptFileUploaded=$receiptFileUploaded, status=$status, dueDay=$dueDay, dateCreate=$dateCreate, " +
+                "dateUpdate=$dateUpdate)"
+    }
+}
+

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 private const val NOT_FOUND = "credit.card.not.found"
+private const val NOT_FOUND_BY_NAME = "credit.card.not.found.by.name"
 
 @Service
 class CreditCardService
@@ -43,6 +44,18 @@ class CreditCardService
             String.format(
                 messageLocator.getMessage(NOT_FOUND),
                 id
+            )
+        )
+        }
+    }
+
+    fun findByName(name: String) : CreditCard {
+        val creditCard = creditCardRepository.findByName(name)
+
+        return creditCard.orElseThrow { throw NotFoundException(
+            String.format(
+                messageLocator.getMessage(NOT_FOUND_BY_NAME),
+                name
             )
         )
         }

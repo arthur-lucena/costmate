@@ -39,4 +39,9 @@ constructor (
         expenseService.delete(id)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
+
+    @GetMapping("/import")
+    fun import() {
+        return expenseService.import()
+    }
 }
