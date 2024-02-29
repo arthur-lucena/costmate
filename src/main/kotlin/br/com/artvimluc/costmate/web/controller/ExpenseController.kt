@@ -1,4 +1,4 @@
-package br.com.artvimluc.costmate.web.controller;
+package br.com.artvimluc.costmate.web.controller
 
 import br.com.artvimluc.costmate.domain.Expense
 import br.com.artvimluc.costmate.service.ExpenseService

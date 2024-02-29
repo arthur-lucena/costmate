@@ -57,7 +57,10 @@ class Expense (
     var dateCreate: LocalDateTime? = null,
 
     @Column(name = "DATE_UPDATE")
-    var dateUpdate: LocalDateTime? = null
+    var dateUpdate: LocalDateTime? = null,
+
+    @Column(name = "TAGS")
+    var tags: String? = null
 ) {
     override fun toString(): String {
         return "Expense(id=$id, creditCardId=$creditCardId, planMonthId=$planMonthId, description=$description, " +
