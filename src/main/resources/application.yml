@@ -18,7 +18,14 @@ spring:
     show-sql: 'true'
   mvc:
     locale: en_US
+logging:
+  level:
+    br:
+      com:
+        artvimluc:
+          costmate: DEBUG
 server:
   servlet:
     context-path: /costmate
   port: '8080'
+

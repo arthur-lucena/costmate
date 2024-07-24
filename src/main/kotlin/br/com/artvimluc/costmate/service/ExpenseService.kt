@@ -1,17 +1,19 @@
 package br.com.artvimluc.costmate.service
 
 import br.com.artvimluc.costmate.domain.Expense
+import br.com.artvimluc.costmate.exception.BusinessException
 import br.com.artvimluc.costmate.exception.NotFoundException
 import br.com.artvimluc.costmate.repository.ExpenseRepository
 import br.com.artvimluc.costmate.util.MessageLocator
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.io.File
-import java.io.FileReader
 import java.io.InputStream
 import java.math.BigDecimal
 
 private const val NOT_FOUND = "expense.not.found"
+private const val EXPENSE_FAIL_CREATE_VALUE = "expense.fail.create.value"
 
 @Service
 class ExpenseService
@@ -24,6 +26,7 @@ class ExpenseService
         private val planMonthService: PlanMonthService,
     ) {
 
+    private val logger = LoggerFactory.getLogger(javaClass)
     fun create(expense: Expense): Expense {
         return expenseRepository.save(expense)
     }
@@ -53,7 +56,7 @@ class ExpenseService
     }
 
     fun find() : List<Expense> {
-        return expenseRepository.findAll();
+        return expenseRepository.findAll()
     }
 
     fun import() {
@@ -69,17 +72,27 @@ class ExpenseService
         return reader.lineSequence()
             .filter { it.isNotBlank() }
             .map {
-                val list = it.split(',', ignoreCase = false, limit = 10);
+                val list = it.split(',', ignoreCase = false, limit = 11);
                 val expense = Expense()
+
+                logger.debug(it)
+
                 expense.description = list[0]
-                expense.value = BigDecimal(list[1])
+
+                try {
+                    expense.value = BigDecimal(list[1])
+                } catch (e: NumberFormatException) {
+                    throw BusinessException(String.format(messageLocator.getMessage(EXPENSE_FAIL_CREATE_VALUE), expense.description, e))
+                }
+
                 expense.creditCardId = if (list[2].isNotEmpty()) creditCardService.findByName(list[2]).id else null
-                expense.fixed = list[3].toBoolean()
-                expense.refund = list[4].toBoolean()
-                expense.percentageRefund = list[5].toIntOrNull()
-                expense.installment = list[6].toIntOrNull()
-                expense.totalInstallments = list[7].toIntOrNull()
-                expense.planMonthId = planMonthService.find(list[9].toIntOrNull(), list[8].toIntOrNull()).id
+                expense.tags = list[3]
+                expense.fixed = list[4].toBoolean()
+                expense.refund = list[5].toBoolean()
+                expense.percentageRefund = list[6].toIntOrNull()
+                expense.installment = list[7].toIntOrNull()
+                expense.totalInstallments = list[8].toIntOrNull()
+                expense.planMonthId = planMonthService.find(list[10].toIntOrNull(), list[9].toIntOrNull()).id
                 expense.receiptFileUploaded = false
 
                 expense
